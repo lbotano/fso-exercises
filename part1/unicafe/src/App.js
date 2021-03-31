@@ -1,18 +1,32 @@
 import React, { useState } from 'react'
 
+function Button({ text, handler }) {
+    return (
+    <button onClick={handler}>
+        {text}
+    </button>
+    )
+}
+
 function Buttons({ goodHandler, neutralHandler, badHandler }) {
 
     return (
     <div>
-        <button onClick={goodHandler}>good</button>
-        <button onClick={neutralHandler}>neutral</button>
-        <button onClick={badHandler}>bad</button>
+        <Button text={"good"} handler={goodHandler} />
+        <Button text={"neutral"} handler={neutralHandler} />
+        <Button text={"bad"} handler={badHandler} />
     </div>
     )
 }
 
+function Statistic({ text, value }) {
+    return (
+        <p>{text} {value}</p>
+    )
+}
+
 function Statistics({ good, neutral, bad }) {
-    if (good == 0 && neutral == 0 && bad == 0) {
+    if (good === 0 && neutral === 0 && bad === 0) {
         return (
         <div>
             <p>No feedback given</p>
@@ -22,11 +36,11 @@ function Statistics({ good, neutral, bad }) {
 
     return (
     <div>
-        <p>good {good}</p>
-        <p>neutral {neutral}</p>
-        <p>bad {bad}</p>
-        <p>average {(good - bad) / (good + neutral + bad)}</p>
-        <p>positive {good / (good + neutral + bad) * 100}%</p>
+        <Statistic text={"good"} value={good} />
+        <Statistic text={"neutral"} value={neutral} />
+        <Statistic text={"bad"} value={bad} />
+        <Statistic text={"average"} value={(good - bad) / (good + neutral + bad)} />
+        <Statistic text={"positive"} value={good / (good + neutral + bad) * 100 + "%"} />
     </div>
     )
 }
