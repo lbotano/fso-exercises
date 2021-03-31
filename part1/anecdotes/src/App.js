@@ -1,5 +1,14 @@
 import React, { useState } from 'react'
 
+const Anecdote = ({ text, points }) => {
+    return(
+        <div>
+            <p>{text}</p>
+            <p>has {points} votes</p>
+        </div>
+    )
+}
+
 const App = () => {
     const anecdotes = [
         'If it hurts, do it more often',
@@ -11,13 +20,22 @@ const App = () => {
     ]
 
     const [selected, setSelected] = useState(0)
+    const [points, setPoints] = useState(new Uint8Array(anecdotes.length))
+    let mostVoted = 0;
 
-    const [points, setPoints] = useState(new Uint8Array(anecdotes.length));
+    function getMostVoted() {
+        let mostVotes = mostVoted
+        for (let i = 0; i < anecdotes.length; i++)
+            if (points[i] > points[mostVotes])
+                mostVotes = i
+        mostVoted = mostVotes;
+        return mostVotes;
+    }
 
     function onClickVote() {
         const copy = [...points]
         copy[selected]++
-        setPoints(copy);
+        setPoints(copy)
     }
 
     function onClickRandomAnecdote() {
@@ -26,10 +44,11 @@ const App = () => {
 
     return (
     <div>
-        <p>{anecdotes[selected]}</p>
-        <p>has {points[selected]} votes</p>
+        <h1>Anecdote of the day</h1>
+        <Anecdote text={anecdotes[selected]} points={points[selected]} />
         <button onClick={onClickVote}>vote</button>
         <button onClick={onClickRandomAnecdote}>next anecdote</button>
+        <Anecdote text={anecdotes[getMostVoted()]} points={points[getMostVoted()]} /> 
     </div>
     )
 }
