@@ -12,6 +12,14 @@ function Buttons({ goodHandler, neutralHandler, badHandler }) {
 }
 
 function Statistics({ good, neutral, bad }) {
+    if (good == 0 && neutral == 0 && bad == 0) {
+        return (
+        <div>
+            <p>No feedback given</p>
+        </div>
+        )
+    }
+
     return (
     <div>
         <p>good {good}</p>
