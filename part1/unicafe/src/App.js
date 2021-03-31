@@ -11,7 +11,7 @@ function Buttons({ goodHandler, neutralHandler, badHandler }) {
     )
 }
 
-function Labels({ good, neutral, bad }) {
+function Statistics({ good, neutral, bad }) {
     return (
     <div>
         <p>good {good}</p>
@@ -38,7 +38,7 @@ function App() {
         <h1>give feedback</h1>
         <Buttons goodHandler={goodHandler} neutralHandler={neutralHandler} badHandler={badHandler} />
         <h1>statistics</h1>
-        <Labels good={good} neutral={neutral} bad={bad} />
+        <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
     )
 }
