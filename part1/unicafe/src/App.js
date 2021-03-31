@@ -40,11 +40,11 @@ function Statistics({ good, neutral, bad }) {
     return (
     <table>
         <tbody>
-        <Statistic text={"good"} value={good} />
-        <Statistic text={"neutral"} value={neutral} />
-        <Statistic text={"bad"} value={bad} />
-        <Statistic text={"average"} value={(good - bad) / (good + neutral + bad)} />
-        <Statistic text={"positive"} value={good / (good + neutral + bad) * 100 + "%"} />
+            <Statistic text={"good"} value={good} />
+            <Statistic text={"neutral"} value={neutral} />
+            <Statistic text={"bad"} value={bad} />
+            <Statistic text={"average"} value={(good - bad) / (good + neutral + bad)} />
+            <Statistic text={"positive"} value={good / (good + neutral + bad) * 100 + "%"} />
         </tbody>
     </table>
     )
