@@ -21,7 +21,10 @@ function Buttons({ goodHandler, neutralHandler, badHandler }) {
 
 function Statistic({ text, value }) {
     return (
-        <p>{text} {value}</p>
+    <tr>
+        <td>{text}</td>
+        <td>{value}</td>
+    </tr>
     )
 }
 
@@ -35,13 +38,15 @@ function Statistics({ good, neutral, bad }) {
     }
 
     return (
-    <div>
+    <table>
+        <tbody>
         <Statistic text={"good"} value={good} />
         <Statistic text={"neutral"} value={neutral} />
         <Statistic text={"bad"} value={bad} />
         <Statistic text={"average"} value={(good - bad) / (good + neutral + bad)} />
         <Statistic text={"positive"} value={good / (good + neutral + bad) * 100 + "%"} />
-    </div>
+        </tbody>
+    </table>
     )
 }
 
