@@ -1,50 +1,37 @@
 import React, { useState } from 'react'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import PersonList from './components/PersonList'
 
-const PersonList = ({ persons }) => {
-    return (
-        <div>
-            { 
-                persons.map((person) =>
-                    <div key={person.name}>{person.name}</div>
-                )
-            }
-        </div>
-    )
-}
 
 const App = () => {
+    const [ searchValue, setSearchValue ] = useState("")
+
     const [ persons, setPersons ] = useState([
-        { name: 'Arto Hellas' }
+        { name: "Arto Hellas", phone: "040-1234567"}
     ]) 
-    const [ newName, setNewName ] = useState('')
+    const [ newName, setNewName ] = useState("")
+    const [ newNumber, setNewNumber ] = useState("")
 
-    function onSubmitName(event) {
-        event.preventDefault()
-
-        // Find if that person is already listed
-        if (persons.find(person => person.name === newName)) {
-            alert(`${newName} is already added to phonebook`)
-        } else {
-            const newPerson = { name: newName }
-
-            setPersons(persons.concat(newPerson))
-            setNewName("")
-        }
-    }
-
+    const getPersonsToShow = () => searchValue === ""
+        ? persons
+        : persons.filter((person) => person.name.toLowerCase().includes(searchValue.toLowerCase()))
+    
     return (
         <div>
             <h2>Phonebook</h2>
-            <form onSubmit={onSubmitName}>
-                <div>
-                    name: <input value={newName} onChange={(event) => setNewName(event.target.value)}/>
-                </div>
-                <div>
-                    <button type="submit">add</button>
-                </div>
-            </form>
+            <Filter searchValue={searchValue} setSearchValue={setSearchValue} />
+            <h2>add a new</h2>
+            <PersonForm
+                persons={persons}
+                setPersons={setPersons}
+                newName={newName}
+                setNewName={setNewName}
+                newNumber={newNumber}
+                setNewNumber={setNewNumber} 
+            />
             <h2>Numbers</h2>
-            <PersonList persons={persons} />
+            <PersonList persons={getPersonsToShow()} />
         </div>
     )
 }
