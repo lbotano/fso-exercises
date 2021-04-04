@@ -19,9 +19,9 @@ function App() {
     return (
         <div>
             <div>
-                find countries <input value={searchingCountry} onChange={(event) => setSearchingCountry(event.target.value)}/>
+                find countries <input value={searchingCountry} onChange={(event) => setSearchingCountry(event.target.value)} />
             </div>
-            <Countries countries={countries} searchingCountry={searchingCountry} />
+            <Countries countries={countries} searchingCountry={searchingCountry} setSearchingCountry={setSearchingCountry} />
         </div>
     );
 }

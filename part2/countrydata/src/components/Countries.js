@@ -1,38 +1,38 @@
 import React from 'react'
 
-const Countries = ({ countries, searchingCountry }) => {
+const Countries = ({ countries, searchingCountry, setSearchingCountry }) => {
     const shownCountries = countries.filter((country) =>
         country.name.toLowerCase().includes(searchingCountry.toLowerCase())
     )
+    let rendered = <div></div>
 
-    if (shownCountries.length > 10) {
-        return (
-            <div>
-                Too many matches, specify another filter
-            </div>
-        )
-    }
-    
-    if (shownCountries.length > 1) {
-        return (
-            <CountryList shownCountries={shownCountries} />
-        )
+    const onShowCountry = (country) => {
+        setSearchingCountry(country.name)
     }
 
     if (shownCountries.length === 1) {
-        return (
+        rendered =
             <FullCountryInfo country={shownCountries[0]} />
-        )
     }
 
-    return (<div></div>)
+    if (shownCountries.length > 1) {
+        rendered =
+            <CountryList shownCountries={shownCountries} onShowCountry={onShowCountry} />
+    }
+
+    if (shownCountries.length > 10) {
+        rendered =
+            <div>Too many matches, specify another filter</div>
+    }
+    
+    return rendered
 }
 
-const CountryList = ({ shownCountries }) =>
+const CountryList = ({ shownCountries, onShowCountry }) =>
     <div>
         {
             shownCountries.map((country) =>
-                <div>{country.name}</div>
+                <div key={country.name}>{country.name} <button onClick={() => onShowCountry(country)}>show</button></div>
             )
         }
     </div>
@@ -46,12 +46,11 @@ const FullCountryInfo = ({ country }) =>
         <ul>
             {
                 country.languages.map((language) =>
-                    <li>{language.name}</li>
+                    <li key={language.iso639_1}>{language.name}</li>
                 )
             }
         </ul>
-        <img src={country.flag} height="100" />
+        <img src={country.flag} height="100" alt={`Flag of ${country.name}`}/>
     </div>
-
 
 export default Countries
