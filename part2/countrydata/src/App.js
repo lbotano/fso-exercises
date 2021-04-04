@@ -8,7 +8,6 @@ function App() {
     const [countries, setCountries] = useState([])
 
     useEffect(() => {
-        console.log("Loaded countries")
         axios
             .get("https://restcountries.eu/rest/v2/all")
             .then(response => {
