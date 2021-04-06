@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber }) => {
     function onSubmitName(event) {
@@ -10,8 +11,17 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
         } else {
             const newPerson = { name: newName, number: newNumber }
 
-            setPersons(persons.concat(newPerson))
-            setNewName("")
+            axios
+                .post("http://localhost:3001/persons", newPerson)
+                .then(response => {
+                    setPersons(persons.concat(newPerson))
+                    setNewName("")
+                    setNewNumber("")
+                })
+                .catch(error => {
+                    alert("Could not add person to the server, see console for details.")
+                    console.log(error)
+                })
         }
     }
 
