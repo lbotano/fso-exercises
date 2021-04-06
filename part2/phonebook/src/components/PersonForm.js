@@ -1,20 +1,35 @@
 import React from 'react'
-import axios from 'axios'
+
+import personsService from '../services/persons'
 
 const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber }) => {
     function onSubmitName(event) {
         event.preventDefault()
 
-        // Find if that person is already listed
-        if (persons.find(person => person.name === newName)) {
-            alert(`${newName} is already added to phonebook`)
-        } else {
-            const newPerson = { name: newName, number: newNumber }
+        const newPerson = { name: newName, number: newNumber }
 
-            axios
-                .post("http://localhost:3001/persons", newPerson)
-                .then(response => {
-                    setPersons(persons.concat(newPerson))
+        // Check if the name already exists
+        const personWithName = 
+            persons.find(person => person.name === newPerson.name)
+        if (personWithName !== undefined) {
+            // Modify phone number
+            if (window.confirm(`${newPerson.name} is already added to the phonebook, replace the old number with a new one?`)) {
+                personsService.update(personWithName.id, newPerson)
+                setPersons(persons.map(person => 
+                    person.id === personWithName.id
+                    ? {...person, number: newPerson.number}
+                    : person
+                ))
+                setNewName("")
+                setNewNumber("")
+            }
+        } else {
+            // Add person
+             personsService
+                .create(newPerson)
+                .then((response) => {
+                    console.log(response)
+                    setPersons(persons.concat(response.data))
                     setNewName("")
                     setNewNumber("")
                 })

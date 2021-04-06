@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+
+import personsService from './services/persons'
+
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import PersonList from './components/PersonList'
@@ -8,9 +10,7 @@ import PersonList from './components/PersonList'
 const App = () => {
     const [ searchValue, setSearchValue ] = useState("")
 
-    const [ persons, setPersons ] = useState([
-        { name: "Arto Hellas", number: "040-1234567"}
-    ]) 
+    const [ persons, setPersons ] = useState([]) 
     const [ newName, setNewName ] = useState("")
     const [ newNumber, setNewNumber ] = useState("")
 
@@ -19,12 +19,9 @@ const App = () => {
         : persons.filter((person) => person.name.toLowerCase().includes(searchValue.toLowerCase()))
 
     useEffect(() => {
-        axios
-            .get("http://localhost:3001/persons")
-            .then( response => {
-                console.log("Persons retrieved")
-                setPersons(response.data)
-            })
+        personsService
+            .getAll()
+            .then( response => setPersons(response.data))
     }, []);
     
     return (
@@ -41,7 +38,11 @@ const App = () => {
                 setNewNumber={setNewNumber} 
             />
             <h2>Numbers</h2>
-            <PersonList persons={getPersonsToShow()} />
+            <PersonList
+                persons={persons}
+                setPersons={setPersons}
+                shownPersons={getPersonsToShow()}
+            />
         </div>
     )
 }
