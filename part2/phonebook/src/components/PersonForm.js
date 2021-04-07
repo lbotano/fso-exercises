@@ -2,7 +2,7 @@ import React from 'react'
 
 import personsService from '../services/persons'
 
-const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber }) => {
+const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNewNumber, setMessage }) => {
     function onSubmitName(event) {
         event.preventDefault()
 
@@ -20,6 +20,10 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
                     ? {...person, number: newPerson.number}
                     : person
                 ))
+                setMessage({text: `Modified ${newPerson.name}'s number`, success: true})
+                setTimeout(() => {
+                    setMessage(null)
+                }, 5000)
                 setNewName("")
                 setNewNumber("")
             }
@@ -30,6 +34,10 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
                 .then((response) => {
                     console.log(response)
                     setPersons(persons.concat(response.data))
+                    setMessage({text: `Added ${newPerson.name}`, success: true})
+                    setTimeout(() => {
+                        setMessage(null)
+                    }, 5000)
                     setNewName("")
                     setNewNumber("")
                 })
