@@ -42,7 +42,11 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNew
                     setNewNumber("")
                 })
                 .catch(error => {
-                    alert("Could not add person to the server, see console for details.")
+                    const errorData = error.response.data;
+                    setMessage({
+                        success: false,
+                        text: `Person validation failed: ${errorData.error}`
+                    })
                     console.log(error)
                 })
         }
