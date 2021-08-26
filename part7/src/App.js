@@ -103,7 +103,14 @@ const CreateNew = (props) => {
           url for more info
           <input name='info' {...info} />
         </div>
-        <button>create</button>
+        <input type="submit" value="create" />
+        <button onClick={() => {
+          content.reset()
+          author.reset()
+          info.reset()
+        }}>
+          reset
+        </button>
       </form>
     </div>
   )
