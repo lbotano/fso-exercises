@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
   Switch, Route, Link,
-  useParams, useRouteMatch
+  useRouteMatch, useHistory
 } from 'react-router-dom'
 
 const Menu = () => {
@@ -13,6 +13,17 @@ const Menu = () => {
       <Link style={padding} to="/">anecdotes</Link>
       <Link style={padding} to="/create">create new</Link>
       <Link style={padding} to="/about">about</Link>
+    </div>
+  )
+}
+
+const Notification = ({ notification }) => {
+  const style = {
+    display: notification === null ? 'none' : 'block'
+  }
+  return (
+    <div style={style}>
+      {notification}
     </div>
   )
 }
@@ -65,7 +76,6 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
-
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
@@ -117,17 +127,27 @@ const App = () => {
     }
   ])
 
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState(null)
+
+  const history = useHistory()
 
   const match = useRouteMatch('/anecdotes/:id')
   const currentAnecdote = match
     ? anecdotes.find(a => a.id === match.params.id)
     : null
 
+  let notificationTimeout
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    history.push('/')
+    setNotification(`a new anecdote ${anecdote.content} created!`)
+    if (notificationTimeout) {
+      clearTimeout(notificationTimeout)
+    }
+    notificationTimeout = setTimeout(() => { setNotification(null) }, 10000)
   }
+
 
   const anecdoteById = (id) =>
     anecdotes.find(a => a.id === id)
@@ -147,6 +167,7 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
+      <Notification notification={notification} />
       <Switch>
         <Route path="/anecdotes/:id">
           <Anecdote anecdote={currentAnecdote} />
