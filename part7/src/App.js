@@ -136,16 +136,16 @@ const App = () => {
     ? anecdotes.find(a => a.id === match.params.id)
     : null
 
-  let notificationTimeout
+  let [notifyTimeoutId, setNotifyTimeoutId] = useState()
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
     history.push('/')
     setNotification(`a new anecdote ${anecdote.content} created!`)
-    if (notificationTimeout) {
-      clearTimeout(notificationTimeout)
+    if (notifyTimeoutId) {
+      clearTimeout(notifyTimeoutId)
     }
-    notificationTimeout = setTimeout(() => { setNotification(null) }, 10000)
+    setNotifyTimeoutId(setTimeout(() => { setNotification(null) }, 10000))
   }
 
 
