@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import { getAllBlogs } from '../reducers/blogsReducer'
 
@@ -44,7 +45,9 @@ const Users = () => {
           {
             reduceUserData().map((userData) => (
               <tr key={userData.username}>
-                <td>{userData.name}</td>
+                <td>
+                  <Link to={`/users/${userData.username}`}>{userData.name}</Link>
+                </td>
                 <td>{userData.count}</td>
               </tr>
             ))

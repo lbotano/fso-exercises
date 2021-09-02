@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import {
-  Switch, Route
+  Switch, Route,
+  useRouteMatch
 } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { createBlog, setBlogs } from './reducers/blogsReducer'
@@ -13,19 +14,20 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import Users from './components/Users'
+import UserInfo from './components/UserInfo'
 import blogService from './services/blogs'
 
 const App = () => {
+  const dispatch = useDispatch()
   const blogs = useSelector((state) =>
     state.blogs
       .sort((a, b) => b.likes - a.likes)
   )
   const user = useSelector((state) => state.user)
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const blogFormRef = useRef()
-
-  const dispatch = useDispatch()
 
   useEffect(async () => {
     const serviceBlogs = await blogService.getAll()
@@ -73,12 +75,21 @@ const App = () => {
     </>
   )
 
+  const userInfoRouteMatch = useRouteMatch('/users/:username')
+  const userInfoUsername = userInfoRouteMatch ? userInfoRouteMatch.params.username : null
+
   const blogForm = () => (
     <>
       <h2>blogs</h2>
       <Notification />
-      <div>{user.name} logged in<button onClick={() => dispatch(logout())}>logout</button></div><br />
+      <div>
+        {user.name} logged in<br />
+        <button onClick={() => dispatch(logout())}>logout</button>
+      </div>
       <Switch>
+        <Route path="/users/:username">
+          <UserInfo username={userInfoUsername} />
+        </Route>
         <Route path="/users">
           <Users />
         </Route>
