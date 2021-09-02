@@ -7,6 +7,11 @@ const initialBlogs = [
     url: 'https://reactpatterns.com/',
     likes: 7,
     user: '607ef18d5111d988409d5863',
+    comments: [
+      'Just testing',
+      'It\'s just a test',
+      'Everything is fine.'
+    ],
     __v: 0
   },
   {
@@ -15,6 +20,9 @@ const initialBlogs = [
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 5,
     user: '607ef18d5111d988409d5863',
+    comments: [
+      'Oh.'
+    ],
     __v: 0
   },
   {
@@ -23,6 +31,7 @@ const initialBlogs = [
     url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
     likes: 12,
     user: '607ef18d5111d988409d5863',
+    comments: [],
     __v: 0
   },
   {
@@ -31,6 +40,7 @@ const initialBlogs = [
     url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
     likes: 10,
     user: '607ef18d5111d988409d5863',
+    comments: [],
     __v: 0
   },
   {
@@ -39,6 +49,7 @@ const initialBlogs = [
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
     likes: 0,
     user: '607ef18d5111d988409d5863',
+    comments: [],
     __v: 0
   },
   {
@@ -47,6 +58,7 @@ const initialBlogs = [
     url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
     likes: 2,
     user: '607ef18d5111d988409d5863',
+    comments: [],
     __v: 0
   }
 ]

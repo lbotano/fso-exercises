@@ -1,9 +1,10 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useRouteMatch } from 'react-router-dom'
+import { useRouteMatch, useHistory } from 'react-router-dom'
 import { voteBlog, deleteBlog } from '../reducers/blogsReducer'
 
 const BlogDetails = () => {
+  const history = useHistory()
   const routeMatch = useRouteMatch('/blogs/:blogId')
   const blogId = routeMatch ? routeMatch.params.blogId : null
 
@@ -20,6 +21,7 @@ const BlogDetails = () => {
   const remove = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
       dispatch(deleteBlog(blog.id))
+      history.push('/')
     }
   }
 
@@ -32,6 +34,12 @@ const BlogDetails = () => {
         <button onClick={() => dispatch(voteBlog(blog))}>like</button><br />
         added by {blog.user.name}<br />
         <button onClick={remove} style={showDeleteStyle}>remove</button>
+        <h3>comments</h3>
+        <ul>
+          {blog.comments.map((comment) => (
+            <li key={comment}>{comment}</li>
+          ))}
+        </ul>
       </div>
     )
     : (

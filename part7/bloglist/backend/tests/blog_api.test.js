@@ -221,6 +221,17 @@ describe('blogs', () => {
       name: 'The User'
     })
   })
+
+  test('can add comments to blog', async () => {
+    const response = await api.get('/api/blogs')
+    const blogId = response.body[0].id
+
+    const postResponse = await api
+      .post(`/api/blogs/${blogId}/comments`)
+      .send({ value: 'test comment' })
+
+    expect(postResponse.body.comments).toContain('test comment')
+  })
 })
 
 describe('user creation', () => {
