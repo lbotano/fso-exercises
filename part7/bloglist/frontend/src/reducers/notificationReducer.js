@@ -6,13 +6,10 @@ const defaultState = {
 const notificationReducer = (state = defaultState, action) => {
   switch (action.type) {
   case 'SET_NOTIFICATION':
-    console.log(action.data)
     return action.data
   case 'UNSET_NOTIFICATION':
-    console.log(defaultState)
     return defaultState
   default:
-    console.log(state)
     return state
   }
 }

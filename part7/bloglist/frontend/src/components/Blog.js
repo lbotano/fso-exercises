@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { voteBlog, deleteBlog } from '../reducers/blogsReducer'
 
-import blogService from '../services/blogs'
+const Blog = ({ blog, user }) => {
+  const dispatch = useDispatch()
 
-const Blog = ({ blog, user, onLike, onRemove }) => {
   const [show, setShow] = useState(false)
 
   const showStyle = { display: show ? '' : 'none' }
@@ -18,23 +20,9 @@ const Blog = ({ blog, user, onLike, onRemove }) => {
     setShow(!show)
   }
 
-  const like = () => {
-    try {
-      blogService.like(blog)
-      onLike(blog)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   const remove = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      try {
-        blogService.remove(blog)
-        onRemove(blog)
-      } catch (error) {
-        console.error(error)
-      }
+      dispatch(deleteBlog(blog.id))
     }
   }
 
@@ -47,7 +35,7 @@ const Blog = ({ blog, user, onLike, onRemove }) => {
       <div style={showStyle} className="togglableContent">
         {blog.url}<br />
         likes <span className="likes">{blog.likes}</span>
-        <button onClick={like}>like</button><br />
+        <button onClick={() => dispatch(voteBlog(blog))}>like</button><br />
         {blog.user.name}<br />
         <button onClick={remove} style={removeStyle}>remove</button>
       </div>
