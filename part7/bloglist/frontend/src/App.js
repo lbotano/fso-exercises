@@ -15,6 +15,7 @@ import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import Users from './components/Users'
 import UserInfo from './components/UserInfo'
+import BlogDetails from './components/BlogDetails'
 import blogService from './services/blogs'
 
 const App = () => {
@@ -76,7 +77,14 @@ const App = () => {
   )
 
   const userInfoRouteMatch = useRouteMatch('/users/:username')
-  const userInfoUsername = userInfoRouteMatch ? userInfoRouteMatch.params.username : null
+  const userInfoUsername = userInfoRouteMatch
+    ? userInfoRouteMatch.params.username
+    : null
+
+  const blogDetailsRouteMatch = useRouteMatch('/blogs/:blogId')
+  const blogDetailsBlogId = blogDetailsRouteMatch
+    ? blogDetailsRouteMatch.params.blogId
+    : null
 
   const blogForm = () => (
     <>
@@ -93,6 +101,9 @@ const App = () => {
         <Route path="/users">
           <Users />
         </Route>
+        <Route path="/blogs/:blogId">
+          <BlogDetails blogId={blogDetailsBlogId} />
+        </Route>
         <Route path="/">
           <h2>create new</h2>
 
@@ -100,7 +111,7 @@ const App = () => {
             <BlogForm createBlog={addBlog} />
           </Togglable>
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} user={user}/>
+            <Blog key={blog.id} blog={blog} />
           )}
         </Route>
       </Switch>
