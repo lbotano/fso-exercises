@@ -74,4 +74,18 @@ export const setBlogs = (blogs) => ({
   data: blogs
 })
 
+export const getAllBlogs = () => {
+  return async (dispatch) => {
+    try {
+      const blogs = await blogService.getAll()
+      dispatch({
+        type: 'SET_BLOGS',
+        data: blogs
+      })
+    } catch (error) {
+      dispatch(notify('error getting blogs', true))
+    }
+  }
+}
+
 export default blogReducer
