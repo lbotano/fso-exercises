@@ -1,18 +1,19 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
+import { createBlog } from '../reducers/blogsReducer'
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = ({ onCreateBlog }) => {
+  const dispatch = useDispatch()
+
   const [blogTitle, setBlogTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
   const addBlog = (event) => {
     event.preventDefault()
-    createBlog(
-      blogTitle,
-      author,
-      url
-    )
+    dispatch(createBlog(blogTitle, author, url))
+    onCreateBlog()
     setBlogTitle('')
     setAuthor('')
     setUrl('')

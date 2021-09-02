@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useRouteMatch } from 'react-router-dom'
 import userService from '../services/users'
 
-const UserInfo = ({ username }) => {
+const UserInfo = () => {
+  const routeMatch = useRouteMatch('/users/:username')
+  const username = routeMatch ? routeMatch.params.username : null
+
   let [user, setUser] = useState(null)
+
   useEffect(async () => {
     const users = await userService.getAll()
     setUser(users.find((usr) => usr.username === username))

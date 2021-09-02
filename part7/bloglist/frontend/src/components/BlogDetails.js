@@ -1,11 +1,16 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useRouteMatch } from 'react-router-dom'
 import { voteBlog, deleteBlog } from '../reducers/blogsReducer'
 
-const BlogDetails = ({ blogId }) => {
+const BlogDetails = () => {
+  const routeMatch = useRouteMatch('/blogs/:blogId')
+  const blogId = routeMatch ? routeMatch.params.blogId : null
+
   const dispatch = useDispatch()
   const blog = useSelector((state) => state.blogs.find((el) => el.id === blogId))
   const loggedUsername = useSelector((state) => state.user.username)
+
 
   const showDeleteStyle =
     {
