@@ -3,7 +3,7 @@ import {
   Switch, Route
 } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { setBlogs } from './reducers/blogsReducer'
+import { getAllBlogs } from './reducers/blogsReducer'
 import { setUser } from './reducers/userReducer'
 
 import './index.css'
@@ -16,7 +16,6 @@ import UserInfo from './components/UserInfo'
 import BlogDetails from './components/BlogDetails'
 import LoginForm from './components/LoginForm'
 import BlogList from './components/BlogList'
-import blogService from './services/blogs'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -25,8 +24,7 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(async () => {
-    const serviceBlogs = await blogService.getAll()
-    dispatch(setBlogs(serviceBlogs))
+    dispatch(getAllBlogs())
   }, [])
 
   useEffect(() => {
