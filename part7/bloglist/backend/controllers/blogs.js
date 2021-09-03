@@ -61,7 +61,7 @@ blogsRouter.post('/:id/comments', async (request, response) => {
   const comment = request.body.value
 
   const blog = await Blog.findById(id)
-  blog.comments.push(comment)
+  blog.comments.unshift(comment)
 
   const result = await Blog.findByIdAndUpdate(id, blog, { new: true })
 

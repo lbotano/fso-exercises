@@ -45,7 +45,7 @@ const BlogForm = ({ onCreateBlog }) => {
 }
 
 BlogForm.propTypes = {
-  createBlog: PropTypes.func.isRequired
+  onCreateBlog: PropTypes.func.isRequired
 }
 
 export default BlogForm

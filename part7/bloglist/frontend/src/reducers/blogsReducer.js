@@ -2,6 +2,7 @@ import blogService from '../services/blogs'
 import { notify } from './notificationReducer'
 
 const blogReducer = (state = [], action) => {
+  let newState
   switch (action.type) {
   case 'CREATE_BLOG':
     return state.concat(action.data)
@@ -14,6 +15,16 @@ const blogReducer = (state = [], action) => {
     )
   case 'SET_BLOGS':
     return action.data
+  case 'COMMENT':
+    newState = state.map((blog) => blog.id === action.data.blogId
+      ? {
+        ...blog,
+        comments: [ action.data.comment, ...blog.comments ]
+      }
+      : blog
+    )
+    console.log(newState)
+    return newState
   default:
     return state
   }
@@ -83,7 +94,26 @@ export const getAllBlogs = () => {
         data: blogs
       })
     } catch (error) {
+      console.error(error)
       dispatch(notify('error getting blogs', true))
+    }
+  }
+}
+
+export const commentBlog = (blogId, comment) => {
+  return async (dispatch) => {
+    try {
+      await blogService.comment(blogId, comment)
+      dispatch({
+        type: 'COMMENT',
+        data: {
+          blogId,
+          comment
+        }
+      })
+    } catch (error) {
+      console.error(error)
+      dispatch(notify('error commenting blog', true))
     }
   }
 }

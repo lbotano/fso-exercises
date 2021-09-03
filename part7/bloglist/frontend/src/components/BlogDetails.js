@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouteMatch, useHistory } from 'react-router-dom'
 import { voteBlog, deleteBlog } from '../reducers/blogsReducer'
+import CommentForm from './CommentForm'
 
 const BlogDetails = () => {
   const history = useHistory()
@@ -11,7 +12,6 @@ const BlogDetails = () => {
   const dispatch = useDispatch()
   const blog = useSelector((state) => state.blogs.find((el) => el.id === blogId))
   const loggedUsername = useSelector((state) => state.user.username)
-
 
   const showDeleteStyle =
     {
@@ -35,6 +35,7 @@ const BlogDetails = () => {
         added by {blog.user.name}<br />
         <button onClick={remove} style={showDeleteStyle}>remove</button>
         <h3>comments</h3>
+        <CommentForm blogId={blogId} />
         <ul>
           {blog.comments.map((comment) => (
             <li key={comment}>{comment}</li>
