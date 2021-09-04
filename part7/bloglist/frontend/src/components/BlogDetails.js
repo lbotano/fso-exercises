@@ -4,6 +4,8 @@ import { useRouteMatch, useHistory } from 'react-router-dom'
 import { voteBlog, deleteBlog } from '../reducers/blogsReducer'
 import CommentForm from './CommentForm'
 
+import { Button, ListGroup, ListGroupItem } from 'react-bootstrap'
+
 const BlogDetails = () => {
   const history = useHistory()
   const routeMatch = useRouteMatch('/blogs/:blogId')
@@ -27,21 +29,39 @@ const BlogDetails = () => {
 
   return blog
     ? (
-      <div>
-        <h2>{blog.title}</h2>
-        <a href={blog.url}>{blog.url}</a><br />
-        {blog.likes} likes
-        <button onClick={() => dispatch(voteBlog(blog))}>like</button><br />
-        added by {blog.user.name}<br />
-        <button onClick={remove} style={showDeleteStyle}>remove</button>
-        <h3>comments</h3>
+      <main className="pt-3">
+        <article className="border p-3 rounded">
+          <div className="d-flex flex-column border-bottom pb-3 mb-3">
+            <h2 className="fw-bold">{blog.title}</h2>
+            <small>added by {blog.user.name}</small>
+            <a href={blog.url} className="text-break">{blog.url}</a>
+          </div>
+          <div className="d-flex align-items-baseline">
+            <Button
+              onClick={() => dispatch(voteBlog(blog))}
+              variant="primary"
+              size="sm"
+              className="me-1">
+              like
+            </Button>
+            <small>{blog.likes} likes</small>
+          </div>
+          <Button onClick={remove}
+            style={showDeleteStyle}
+            variant="outline-danger"
+            size="sm"
+            className="mt-3">
+            remove
+          </Button>
+        </article>
+        <h3 className="mt-3">comments</h3>
         <CommentForm blogId={blogId} />
-        <ul>
+        <ListGroup>
           {blog.comments.map((comment) => (
-            <li key={comment}>{comment}</li>
+            <ListGroupItem key={comment}>{comment}</ListGroupItem>
           ))}
-        </ul>
-      </div>
+        </ListGroup>
+      </main>
     )
     : (
       <div>

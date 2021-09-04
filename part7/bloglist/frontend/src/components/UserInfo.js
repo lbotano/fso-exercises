@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useRouteMatch } from 'react-router-dom'
+
+import { ListGroup } from 'react-bootstrap'
+
 import userService from '../services/users'
 
 const UserInfo = () => {
@@ -19,22 +22,22 @@ const UserInfo = () => {
 
   return user
     ? (
-      <div>
-        <h1>{user.name}</h1>
-        <h3>added blogs</h3>
-        <ul>
+      <div className="mt-3">
+        <h1 className="fw-bold">Added blogs</h1>
+        <h2>{user.name}</h2>
+        <ListGroup>
           {
             blogs
               .filter((blog) => blog.user.username === user.username)
               .map((blog) => (
-                <li key={blog.id}>{blog.title}</li>
+                <ListGroup.Item key={blog.id}>{blog.title}</ListGroup.Item>
               ))
           }
-        </ul>
+        </ListGroup>
       </div>
     )
     : (
-      <div>
+      <div className="mt-3">
         User does not exist
       </div>
     )

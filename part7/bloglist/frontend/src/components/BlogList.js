@@ -1,6 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
+import { ListGroup } from 'react-bootstrap'
+
 import Blog from './Blog'
 
 const BlogList = () => {
@@ -10,11 +12,13 @@ const BlogList = () => {
   )
 
   return (
-    <div>
+    <ListGroup>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <ListGroup.Item key={blog.id}>
+          <Blog blog={blog} />
+        </ListGroup.Item>
       )}
-    </div>
+    </ListGroup>
   )
 }
 

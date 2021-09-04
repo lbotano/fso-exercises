@@ -36,9 +36,15 @@ const App = () => {
     }
   }, [])
 
+  const containerStyle = {
+    maxWidth: 900
+  }
+
   return user === null
-    ? <LoginForm />
-    : <>
+    ? <div className="container" style={containerStyle}>
+      <LoginForm />
+    </div>
+    : <div className="container" style={containerStyle}>
       <Header />
       <Switch>
         <Route path="/users/:username">
@@ -57,7 +63,7 @@ const App = () => {
           <BlogList />
         </Route>
       </Switch>
-    </>
+    </div>
 }
 
 export default App

@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
+
+import { Form, Button } from 'react-bootstrap'
+
 import { createBlog } from '../reducers/blogsReducer'
 
 const BlogForm = ({ onCreateBlog }) => {
@@ -20,27 +23,35 @@ const BlogForm = ({ onCreateBlog }) => {
   }
 
   return (
-    <form onSubmit={addBlog}>
-      title:
-      <input
-        id="title"
-        type="text"
-        value={blogTitle}
-        onChange={ event => setBlogTitle(event.target.value) } /><br />
-      author:
-      <input
-        id="author"
-        type="text"
-        value={author}
-        onChange={ event => setAuthor(event.target.value) } /><br />
-      url:
-      <input
-        id="url"
-        type="text"
-        value={url}
-        onChange={ event => setUrl(event.target.value) } /><br />
-      <input id="submit" type="submit" value="create" />
-    </form>
+    <Form onSubmit={addBlog}>
+      <Form.Group className="mb-3">
+        <Form.Label>Title</Form.Label>
+        <Form.Control
+          id="title"
+          type="text"
+          value={blogTitle}
+          onChange={ event => setBlogTitle(event.target.value) } />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Author</Form.Label>
+        <Form.Control
+          id="author"
+          type="text"
+          value={author}
+          onChange={ event => setAuthor(event.target.value) } />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>URL</Form.Label>
+        <Form.Control
+          id="url"
+          type="text"
+          value={url}
+          onChange={ event => setUrl(event.target.value) } />
+      </Form.Group>
+      <Button id="submit" type="submit">
+        Create
+      </Button>
+    </Form>
   )
 }
 

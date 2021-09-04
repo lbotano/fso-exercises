@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
+import { Form, Button } from 'react-bootstrap'
+
 import Notification from './Notification'
 import { login } from '../reducers/userReducer'
 
@@ -11,30 +13,36 @@ const LoginForm = () => {
   const [password, setPassword] = useState('')
 
   return (
-    <>
+    <div>
       <h2>Log in to application</h2>
       <Notification />
-      <form id="login" onSubmit={(event) => {
+      <Form id="login" onSubmit={(event) => {
         event.preventDefault()
         dispatch(login(username, password))
       }} >
-        username
-        <input
-          id="login-username"
-          type="text"
-          value={username}
-          onChange={ event => setUsername(event.target.value) } />
-        <br />
-        password
-        <input
-          id="login-pass"
-          type="password"
-          value={password}
-          onChange={ event => setPassword(event.target.value) } />
-        <br />
-        <input id="login-submit" type="submit" value="login" />
-      </form>
-    </>
+        <Form.Group className="mb-3">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            id="login-username"
+            type="text"
+            value={username}
+            onChange={ event => setUsername(event.target.value) }
+            placeholder="Enter your username" />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            id="login-pass"
+            type="password"
+            value={password}
+            onChange={ event => setPassword(event.target.value) }
+            placeholder="Enter your password" />
+        </Form.Group>
+        <Button variant="primary" id="login-submit" type="submit">
+          Login
+        </Button>
+      </Form>
+    </div>
   )
 }
 
