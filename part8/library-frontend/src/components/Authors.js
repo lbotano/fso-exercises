@@ -1,6 +1,8 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 
+import ChangeAuthor from './ChangeAuthor'
+
 const Authors = (props) => {
   if (!props.show) {
     return null
@@ -50,7 +52,7 @@ const Authors = (props) => {
           )}
         </tbody>
       </table>
-
+      <ChangeAuthor />
     </div>
   )
 }
