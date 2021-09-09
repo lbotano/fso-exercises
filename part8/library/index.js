@@ -69,7 +69,9 @@ const resolvers = {
   Query: {
     bookCount: async () => await Book.estimatedDocumentCount(),
     authorCount: async () => await Author.estimatedDocumentCount(),
-    allBooks: async (root, args) => await Book.find().populate('author'),
+    allBooks: async (root, args) => args.genre
+      ? await Book.find({ genres: args.genre }).populate('author')
+      : await Book.find().populate('author'),
     allAuthors: async () => await Author.find(),
     me: (root, args, context) => context.currentUser
   },
