@@ -43,7 +43,11 @@ const Authors = (props) => {
           )}
         </tbody>
       </table>
-      <ChangeAuthor />
+      {
+        localStorage.getItem('library-user-token')
+        ? <ChangeAuthor />
+        : null
+      }
     </div>
   )
 }
