@@ -38,6 +38,7 @@ query {
       name
     }
     published
+    genres
   }
 }
 `
@@ -57,6 +58,14 @@ mutation createBook($title: String!, $author: String!, $published: Int!, $genres
     }
     published
     genres
+  }
+}
+`
+
+export const WHO_AM_I = gql`
+query {
+  me {
+    favoriteGenre
   }
 }
 `
