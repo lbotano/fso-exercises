@@ -64,7 +64,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Author: {
-    bookCount: (root) => books.reduce((acc, curr) => curr.author === root.name ? acc + 1 : acc, 0)
+    bookCount: async (root) => await Book.countDocuments({ author: root.id })
   },
   Query: {
     bookCount: async () => await Book.estimatedDocumentCount(),
