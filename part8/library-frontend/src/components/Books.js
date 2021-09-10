@@ -13,7 +13,6 @@ const Books = ({ show, defaultGenre = null }) => {
 
   useEffect(() => {
     getBooks({ variables: { genre: selectedGenre } })
-    console.log('GENRE SELECTED')
   }, [selectedGenre])
 
   if (books.loading || !books.data) {
