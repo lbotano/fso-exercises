@@ -30,8 +30,8 @@ mutation changeBirthyear($name: String!, $born: Int!) {
 `
 
 export const GET_BOOKS = gql`
-query {
-  allBooks {
+query getBooks($genre: String) {
+  allBooks(genre: $genre) {
     id
     title
     author {

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useQuery } from '@apollo/client'
+import React, { useState, useEffect } from 'react'
+import { useLazyQuery } from '@apollo/client'
 
 import { GET_BOOKS } from '../queries'
 
@@ -8,10 +8,15 @@ const Books = ({ show, defaultGenre = null }) => {
     return null
   }
 
-  const books = useQuery(GET_BOOKS)
+  const [getBooks, books] = useLazyQuery(GET_BOOKS)
   const [selectedGenre, selectGenre] = useState(defaultGenre)
 
-  if (books.loading) {
+  useEffect(() => {
+    getBooks({ variables: { genre: selectedGenre } })
+    console.log('GENRE SELECTED')
+  }, [selectedGenre])
+
+  if (books.loading || !books.data) {
     return (
       <div>
         loading...
@@ -26,7 +31,6 @@ const Books = ({ show, defaultGenre = null }) => {
   return (
     <div>
       <h2>books</h2>
-
       <table>
         <tbody>
           <tr>
@@ -39,31 +43,32 @@ const Books = ({ show, defaultGenre = null }) => {
             </th>
           </tr>
           {books.data.allBooks.map(a =>
-            !selectedGenre || a.genres.indexOf(selectedGenre) >= 0
-              ? (
-                <tr key={a.title}>
-                  <td>{a.title}</td>
-                  <td>{a.author.name}</td>
-                  <td>{a.published}</td>
-                </tr>
-              )
-              : null
+            (
+              <tr key={a.title}>
+                <td>{a.title}</td>
+                <td>{a.author.name}</td>
+                <td>{a.published}</td>
+              </tr>
+            )
           )}
         </tbody>
       </table>
-      { selectedGenre }
-      <div>
         {
-          genres.map((genre) => (
-            <button key={genre} onClick={() => selectGenre(genre)}>
-              {genre}
-            </button>
-          ))
+          defaultGenre === null
+            ? <div>
+              {
+                genres.map((genre) => (
+                  <button key={genre} onClick={() => selectGenre(genre)}>
+                    {genre}
+                  </button>
+                ))
+              }
+              <button onClick={() => selectGenre(null)}>
+                all genres
+              </button>
+            </div>
+            : null
         }
-        <button onClick={() => selectGenre(null)}>
-          all genres
-        </button>
-      </div>
     </div>
   )
 }
