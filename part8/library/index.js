@@ -69,16 +69,42 @@ const typeDefs = gql`
 `
 
 const resolvers = {
-  Author: {
-    bookCount: async (root) => await Book.countDocuments({ author: root.id })
-  },
   Query: {
     bookCount: async () => await Book.estimatedDocumentCount(),
     authorCount: async () => await Author.estimatedDocumentCount(),
-    allBooks: async (root, args) => args.genre
+    allBooks: async (_, args) => args.genre
       ? await Book.find({ genres: args.genre }).populate('author')
       : await Book.find().populate('author'),
-    allAuthors: async () => await Author.find(),
+    allAuthors: async () => await Author.aggregate([
+      {
+        $lookup: {
+          from: 'books',
+          localField: '_id',
+          foreignField: 'author',
+          as: 'books'
+        }
+      },
+      {
+        $unwind: '$books'
+      },
+      {
+        $group: {
+          _id: '$_id',
+          name: { $first: '$name' },
+          born: { $first: '$born' },
+          bookCount: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          id: '$_id',
+          name: '$name',
+          born: '$born',
+          bookCount: '$bookCount'
+        }
+      }
+    ]).exec(),
     me: (root, args, context) => context.currentUser
   },
   Mutation: {
