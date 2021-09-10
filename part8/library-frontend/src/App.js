@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useApolloClient, useLazyQuery } from '@apollo/client'
+import { useApolloClient, useLazyQuery, useSubscription } from '@apollo/client'
 
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Notify from './components/Notify'
 import LoginForm from './components/LoginForm'
-import { WHO_AM_I } from './queries'
+import { WHO_AM_I, GET_BOOKS, BOOK_ADDED } from './queries'
 
 const App = () => {
   const [token, setToken] = useState(null)
@@ -23,6 +23,31 @@ const App = () => {
       setMessage('')
     }, 5000)
   }
+
+  const updateCacheWith = (addedBook) => {
+    const includedIn = (set, object) => set.map(p => p.id).includes(object.id)
+    
+    const dataInStore = client.readQuery({
+      query: GET_BOOKS,
+      variables: { genre: null }
+    })
+
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      client.writeQuery({
+        query: GET_BOOKS,
+        data: { allBooks: dataInStore.allBooks.concat(addedBook) },
+        variables: { genre: null }
+      })
+    }
+  }
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const addedBook = subscriptionData.data.bookAdded
+      notify(`${addedBook.title} added`)
+      updateCacheWith(addedBook)
+    }
+  })
 
   const logout = () => {
     setToken(null)
@@ -88,6 +113,7 @@ const App = () => {
 
       <NewBook
         show={page === 'add'}
+        updateCacheWith={updateCacheWith}
       />
 
       <LoginForm

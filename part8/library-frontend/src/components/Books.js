@@ -4,9 +4,6 @@ import { useLazyQuery } from '@apollo/client'
 import { GET_BOOKS } from '../queries'
 
 const Books = ({ show, defaultGenre = null }) => {
-  if (!show) {
-    return null
-  }
 
   const [getBooks, books] = useLazyQuery(GET_BOOKS)
   const [selectedGenre, selectGenre] = useState(defaultGenre)
@@ -14,6 +11,10 @@ const Books = ({ show, defaultGenre = null }) => {
   useEffect(() => {
     getBooks({ variables: { genre: selectedGenre } })
   }, [selectedGenre])
+
+  if (!show) {
+    return null
+  }
 
   if (books.loading || !books.data) {
     return (
