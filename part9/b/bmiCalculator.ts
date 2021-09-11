@@ -13,7 +13,7 @@ const calculateBmi = (height: number, weight: number): string => {
     return 'Overweight (unhealthy weight)';
   }
   return 'Obese (unhealthy weight)';
-}
+};
 
 const parseArguments = (args: Array<string>): BmiArguments => {
   if (args.length < 4) {
@@ -34,10 +34,10 @@ const parseArguments = (args: Array<string>): BmiArguments => {
     height,
     weight
   };
-}
+};
 
 try {
-  const {height, weight} = parseArguments(process.argv)
+  const {height, weight} = parseArguments(process.argv);
   console.log(calculateBmi(height, weight));
 } catch (error) {
   console.error('Error: ' + error);

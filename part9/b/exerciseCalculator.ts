@@ -34,7 +34,7 @@ const parseArguments = (args: Array<string>): ExercisesInput => {
     days,
     target
   };
-}
+};
 
 const calculateExercises = (days: Array<number>, target: number): Inform => {
   const average = days.reduce((totalHours, day) => totalHours + day, 0) / days.length;
@@ -58,11 +58,13 @@ const calculateExercises = (days: Array<number>, target: number): Inform => {
     target,
     average
   };
-}
+};
 
 try {
   const {days, target} = parseArguments(process.argv);
   console.log(calculateExercises(days, target));
 } catch (error) {
-  console.error('Error: ' + error.message)
+  if (error instanceof Error) {
+    console.error('Error: ' + error.message);
+  }
 }
