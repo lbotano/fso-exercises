@@ -8,8 +8,35 @@ interface Inform {
   target: number;
   average: number;
 }
+interface ExercisesInput {
+  days: Array<number>;
+  target: number;
+}
 
-const calculateExercises = (days: number[], target: number): Inform => {
+const parseArguments = (args: Array<string>): ExercisesInput => {
+  if (args.length < 4) throw new Error('Not enough arguments');
+
+  const target = Number(args[2]);
+  const days: Array<number> = [];
+  
+  for (let i = 3; i < args.length; i++) {
+    const day = Number(args[i]);
+    if (isNaN(day)) {
+      throw new Error('Values must be numbers');
+    }
+    days.push(day);
+  }
+  if (isNaN(target)) {
+    throw new Error('Values must be numbers');
+  }
+
+  return {
+    days,
+    target
+  };
+}
+
+const calculateExercises = (days: Array<number>, target: number): Inform => {
   const average = days.reduce((totalHours, day) => totalHours + day, 0) / days.length;
   let rating: Rating = 3;
   let ratingDescription = 'Very good';
@@ -33,4 +60,9 @@ const calculateExercises = (days: number[], target: number): Inform => {
   };
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+try {
+  const {days, target} = parseArguments(process.argv);
+  console.log(calculateExercises(days, target));
+} catch (error) {
+  console.error('Error: ' + error.message)
+}
