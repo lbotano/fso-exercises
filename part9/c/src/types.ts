@@ -1,10 +1,15 @@
-export type Gender = 'male' | 'female' | 'other';
+export enum Gender {
+  Male = 'male',
+  Female = 'female',
+  Other = 'other'
+}
+
 export type HealthRating = 0 | 1 | 2 | 3;
 
 export interface PatientEntry {
   id: string;
   name: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
   ssn: string;
   gender: Gender;
   occupation: string;

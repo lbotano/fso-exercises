@@ -1,13 +1,19 @@
+import {v1 as uuid} from 'uuid';
+
+import {parseGender} from '../utils';
 import patientsData from '../../data/patients.json';
-import {PatientEntry, NonSensitivePatientEntry} from '../types';
-import {verifyGender} from '../utils';
+import {
+  PatientEntry,
+  NonSensitivePatientEntry,
+  NewPatientEntry
+} from '../types';
 
 const patients: Array<PatientEntry> = patientsData.map((patient) => ({
     id: patient.id,
     name: patient.name,
-    dateOfBirth: new Date(patient.dateOfBirth),
+    dateOfBirth: patient.dateOfBirth,
     ssn: patient.ssn,
-    gender: verifyGender(patient.gender),
+    gender: parseGender(patient.gender),
     occupation: patient.occupation
 }));
 
@@ -23,7 +29,18 @@ const getNonSensitiveEntries = (): Array<NonSensitivePatientEntry> => {
   }));
 };
 
+const createPatient = (patient: NewPatientEntry): PatientEntry => {
+  const newPatientEntry = {
+    id: uuid(),
+    ...patient
+  };
+
+  patients.push(newPatientEntry);
+  return newPatientEntry;
+};
+
 export default {
   getEntries,
-  getNonSensitiveEntries
+  getNonSensitiveEntries,
+  createPatient
 };
